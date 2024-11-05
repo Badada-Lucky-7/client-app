@@ -2,7 +2,8 @@ name: Deploy Stage Vercel
 
 on:
   push:
-    branches: [release]
+    branches:
+      - release/*
 
 jobs:
   build:
