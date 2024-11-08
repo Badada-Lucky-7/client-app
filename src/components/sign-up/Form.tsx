@@ -42,7 +42,7 @@ const Form = () => {
       onSubmit={(e) => {
         e.preventDefault();
         console.log(email, pw);
-        if (isValidEmail === true && isValidPw === true && isPwConfirm === true) {
+        if (isValidEmail && isValidPw && isPwConfirm) {
           axios.post('/api/auth/sign-up', { email: email, password: pw });
           console.log(true);
         } else {
