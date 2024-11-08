@@ -1,6 +1,6 @@
 import Form from '@/components/sign-up/Form';
 
-import './styles.css';
+import './style.css';
 
 const SignUp = () => {
   return (
