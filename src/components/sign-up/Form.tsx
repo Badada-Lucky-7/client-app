@@ -11,26 +11,28 @@ const Form = () => {
   const [pw, setPw] = useState('');
   const [pwConfirm, setPwConfirm] = useState('');
   const [nickName, setNickName] = useState('');
-  const [valid, setValid] = useState(1);
+  const [isValidEmail, setIsValidEmail] = useState(true);
+  const [isValidPw, setIsValidPw] = useState(true);
+  const [isPwConfirm, setIsPwConfirm] = useState(true);
 
   function EmailConfirm() {
     if (!validateEmail(email)) {
       alert('Confirm your Email!');
-      setValid(0);
+      setIsValidEmail(false);
     } else {
-      setValid(1);
+      setIsValidEmail(true);
       console.log(email);
     }
   }
   function PwConfirm() {
     if (!validatePassword(pw)) {
       alert('Confirm your Password!');
-      setValid(0);
+      setIsValidPw(false);
     } else if (!(pw == pwConfirm)) {
       alert('pw != pwConfirm');
-      setValid(0);
+      setIsPwConfirm(false);
     } else {
-      setValid(1);
+      setIsValidPw(true);
       console.log(pw);
     }
   }
@@ -40,7 +42,7 @@ const Form = () => {
       onSubmit={(e) => {
         e.preventDefault();
         console.log(email, pw);
-        if (valid == 1) {
+        if (isValidEmail === true && isValidPw === true && isPwConfirm === true) {
           axios.post('/api/auth/sign-up', { email: email, password: pw });
           console.log(true);
         } else {
