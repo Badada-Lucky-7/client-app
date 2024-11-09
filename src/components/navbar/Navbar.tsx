@@ -6,7 +6,7 @@ import Link from 'next/link';
 import './Navbar.css';
 
 const Navbar = () => {
-  const profile = useProfile();
+  const { profile } = useProfile();
 
   return (
     <header className="navbar-header">
