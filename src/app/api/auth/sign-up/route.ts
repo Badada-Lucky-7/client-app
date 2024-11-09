@@ -7,19 +7,12 @@ export async function POST(request: NextRequest) {
 
   console.log(req);
 
-  const res = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_HOST}/auth/sign-up`, { req });
+  const res = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_HOST}/auth/sign-up`, req);
 
-  if (!res) {
-    console.error('Failed to sign up');
+  console.log(res);
+
+  if (res.status === 400) {
     return NextResponse.error();
   }
-
-  const signInRes = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_HOST}/auth/sign-in`, req);
-
-  if (!signInRes) {
-    console.error('Failed to sign in with the new account');
-    return NextResponse.error();
-  }
-
-  return NextResponse.json(signInRes);
+  return NextResponse.json({ data: res.data.message });
 }
