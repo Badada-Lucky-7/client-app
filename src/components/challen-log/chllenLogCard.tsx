@@ -1,52 +1,71 @@
 'use client';
 
+import useProfile from '@/hooks/useProfile';
 import { GatheringType } from '@/types/Gathering';
 import axios from 'axios';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import JoinCard from '../join-card/JoinCard';
 
-interface GateringProps {
-  gatherings: GatheringType;
-}
+const ChallenLogCard = () => {
+  const searchParams = useSearchParams();
 
-const ChallenLogCard = ({ gatherings }: GateringProps) => {
-  const [gathering, setgathering] = useState<GatheringType | null>(null);
+  const { profile } = useProfile();
+
+  const id = Number(searchParams.get('id'));
+  const nickName = String(searchParams.get('nickName'));
+  const challengeId = Number(searchParams.get('challengeId'));
+  const text = String(searchParams.get('text'));
+  const maxCount = Number(searchParams.get('maxCount'));
+  const likeCount = Number(searchParams.get('likeCount'));
+
+  interface GatheringResponse {
+    gatherings: GatheringType;
+    check: boolean;
+  }
+
+  const [gatheringData, setGatheringData] = useState<GatheringResponse[] | null>(null);
+
   useEffect(() => {
+    if (!profile?.accessToken || !id || !nickName || !challengeId || !text || !maxCount || !likeCount) {
+      return;
+    }
     axios
-      .get(`/api/challe-log`, {
+      .get<GatheringResponse[]>(`/api/challen-log`, {
         params: {
-          id: gatherings.id,
-          challengeId: gatherings.challengeId,
-          likeCount: gatherings.likeCount,
-          maxCount: gatherings.maxCount,
-          text: gatherings.text,
-          nickName: gatherings.nickName,
+          id,
+          nickName,
+          challengeId,
+          text,
+          maxCount,
+          likeCount,
+        },
+        headers: {
+          Authorization: `Bearer ${profile.accessToken}`,
         },
       })
       .then((res) => {
-        setgathering(res.data);
+        if (!res.data) {
+          return;
+        }
+        setGatheringData(res.data);
       })
       .catch((err) => {
         console.error(err);
       });
-  }, [
-    gatherings.id,
-    gatherings.challengeId,
-    gatherings.likeCount,
-    gatherings.nickName,
-    gatherings.maxCount,
-    gatherings.text,
-  ]);
+  }, [id, likeCount, maxCount, challengeId, text, nickName, profile?.accessToken]);
   return (
     <>
-      <JoinCard
-        id={gatherings.id}
-        nickName={gatherings.nickName}
-        text={gatherings.text}
-        challengeId={gatherings.challengeId}
-        maxCount={gatherings.maxCount}
-        likeCount={gatherings.likeCount}
-      />
+      {gatheringData?.map((data) => (
+        <JoinCard
+          id={data.gatherings.id}
+          likeCount={data.gatherings.likeCount}
+          maxCount={data.gatherings.maxCount}
+          challengeId={data.gatherings.challengeId}
+          text={data.gatherings.text}
+          nickName={data.gatherings.nickName}
+        />
+      ))}
     </>
   );
 };
