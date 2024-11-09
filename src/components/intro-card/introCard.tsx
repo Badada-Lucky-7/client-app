@@ -19,18 +19,18 @@ const IntroCard = ({ userName, selectedGu, selectedCategory }: Props) => {
         <React.Fragment>
           <CardContent>
             <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 14 }}>
-              Challen-Day | Hello User '{userName}'!
+              {`Challen-Day | Hello User ${userName}!`}
             </Typography>
             <Typography variant="h6" component="div">
-              Today's challenge that you selected [{selectedGu}/{selectedCategory}] is {'this'}!
+              {`Today's challenge that you selected [${selectedGu}/${selectedCategory}] is ${'this'}!`}
             </Typography>
             <Typography variant="h6">
-              Good Luck!
+              {`Good Luck!`}
               <br />
             </Typography>
           </CardContent>
           <CardActions>
-            <Button size="small">Learn More</Button>
+            <Button size="small">{`Learn More`}</Button>
           </CardActions>
         </React.Fragment>
       </Card>
