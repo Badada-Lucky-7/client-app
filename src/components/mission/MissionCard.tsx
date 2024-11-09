@@ -12,8 +12,6 @@ import axios from 'axios';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import balloon from '../../../public/asset/balloon.png';
-
 import { romanizeAddress } from '@/utils/i11n';
 import './MissionCard.css';
 
@@ -52,11 +50,7 @@ const MissionOpenCard = ({
 }) => {
   const [open, setOpen] = useState(false);
   return (
-    <div
-      style={{
-        backgroundImage: `url(${balloon.src})`,
-      }}
-    >
+    <div>
       <Box sx={{ minWidth: 275 }}>
         <Card variant="outlined">
           <>
