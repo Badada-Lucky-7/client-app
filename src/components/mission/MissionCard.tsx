@@ -97,7 +97,7 @@ const MissionCard = () => {
   const [mission, setMission] = useState<MissionType | null>(null);
 
   useEffect(() => {
-    if (!profile || !district || !bigCategory) {
+    if (!profile?.accessToken || !district || !bigCategory) {
       return;
     }
     axios
@@ -117,7 +117,7 @@ const MissionCard = () => {
 
         setMission(res.data);
       });
-  }, [district, bigCategory, profile]);
+  }, [district, bigCategory, profile?.accessToken]);
 
   return (
     <>
