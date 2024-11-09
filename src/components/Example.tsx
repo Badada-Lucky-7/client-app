@@ -1,7 +1,7 @@
 'use client';
 
 import useExample from '@/hooks/useExample';
-import useSession from '@/hooks/useSession';
+import useSession from '@/hooks/useProfile';
 import axios from 'axios';
 
 const Example = () => {

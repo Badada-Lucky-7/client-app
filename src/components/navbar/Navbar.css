@@ -1,0 +1,18 @@
+.navbar-header {
+  height: 120px;
+  padding: 24px;
+
+  .navbar-nav {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 150%;
+    .nav-logo {
+    }
+    .nav-challen-log {
+    }
+  }
+}
