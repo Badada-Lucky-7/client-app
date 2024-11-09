@@ -14,22 +14,39 @@ import './ChallengeList.css';
 const ChallengeList = () => {
   const [challenList, setChallengeList] = useState<ChallengeType[]>([]);
   const [selected, setSelected] = useState<ChallengeType | null>(null);
+  const [selectedGogun, setSelectedGogun] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
 
   useEffect(() => {
     axios
-      .get('/api/challenge')
+      .get('/api/challenge', {
+        params: {
+          district: selectedGogun,
+          category: selectedCategory,
+        },
+      })
       .then((res) => {
         setChallengeList(res.data);
       })
       .catch((err) => {
         console.error(err);
       });
-  }, []);
+  }, [selectedCategory, selectedGogun]);
   return (
     <div className="challenge-list-container">
       <div className="chanllenge-option">
-        <MultiSelectBox title={'지역 선택'} options={GOGUN} defaultValue={['전체']} />
-        <MultiSelectBox title={'카테고리 선택'} options={BIG_CATEGORY} defaultValue={['전체']} />
+        <MultiSelectBox
+          title={'지역 선택'}
+          options={GOGUN}
+          defaultValue={['전체']}
+          onChange={(value) => typeof value === 'string' && setSelectedGogun(value)}
+        />
+        <MultiSelectBox
+          title={'카테고리 선택'}
+          options={BIG_CATEGORY}
+          defaultValue={['전체']}
+          onChange={(value) => typeof value === 'string' && setSelectedCategory(value)}
+        />
       </div>
       <ul className="challenge-list">
         {challenList.map((challenge) => {

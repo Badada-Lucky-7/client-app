@@ -22,9 +22,10 @@ interface MultiSelectBoxProps {
   title: string;
   options: string[];
   defaultValue?: string[];
+  onChange?: (value: string | string[]) => void;
 }
 
-const MultiSelectBox = ({ title, options: givenOptions, defaultValue }: MultiSelectBoxProps) => {
+const MultiSelectBox = ({ title, options: givenOptions, defaultValue, onChange }: MultiSelectBoxProps) => {
   const [options, setOptions] = React.useState<string[]>(defaultValue ?? []);
 
   const handleChange = (event: SelectChangeEvent<typeof options>) => {
@@ -43,6 +44,17 @@ const MultiSelectBox = ({ title, options: givenOptions, defaultValue }: MultiSel
       }
       return typeof value === 'string' ? value.split(',') : value;
     });
+
+    if (!onChange) {
+      return;
+    }
+
+    if (value.includes('전체')) {
+      onChange(['전체']);
+      return;
+    }
+
+    onChange(value);
   };
 
   return (
@@ -51,7 +63,7 @@ const MultiSelectBox = ({ title, options: givenOptions, defaultValue }: MultiSel
         <InputLabel id={title}>{title}</InputLabel>
         <Select
           labelId={title}
-          multiple
+          // multiple
           value={options}
           onChange={handleChange}
           input={<OutlinedInput label="Chip" />}
