@@ -1,17 +1,17 @@
-import IntroCard from '@/components/intro-card/introCard';
+import MissionCard from '@/components/mission/MissionCard';
 import './page.css';
 
-const About = () => {
+const Mission = () => {
   return (
     <div className="container">
       <div className="sampleImage">
         <img src="/asset/sampleImage.png" alt="sampleImage" />
       </div>
       <div className="textBox">
-        <IntroCard userName={'Hong gildong'} selectedCategory={'Food'} selectedGu={'GangNam'} />
+        <MissionCard />
       </div>
     </div>
   );
 };
 
-export default About;
+export default Mission;
