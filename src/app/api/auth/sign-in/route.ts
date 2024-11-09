@@ -1,3 +1,4 @@
+import session from '@/helpers/session';
 import { SignRequestType } from '@/types/Auth';
 import axios from 'axios';
 import { NextRequest, NextResponse } from 'next/server';
@@ -9,10 +10,13 @@ export async function POST(request: NextRequest) {
 
   const res = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_HOST}/auth/sign-in`, req);
 
-  console.log(res);
-
-  if (res.status === 400) {
+  if (!res) {
+    console.error('Failed to sign in');
     return NextResponse.error();
   }
-  return NextResponse.json({ data: res.data.message });
+
+  // TODO: Save the token to the session
+  session.set('res.data.token');
+
+  return NextResponse.json(session.get());
 }
