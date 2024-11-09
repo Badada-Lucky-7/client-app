@@ -90,10 +90,6 @@ const GeoJsonLayer = ({
               });
             },
             mouseout: async () => {
-              if (!sgg) {
-                return;
-              }
-
               onChange(null);
             },
           });
