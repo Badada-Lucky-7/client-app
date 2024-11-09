@@ -11,17 +11,14 @@ class Session {
 
   set(value: string) {
     this.token = value;
-    // 브라우저 환경에서만 localStorage 사용
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('session', value);
-    }
+    localStorage.setItem('session', value);
   }
 
   get() {
-    if (!this.token && typeof window !== 'undefined') {
+    if (!this.token) {
       this.token = localStorage.getItem('session');
     }
-    return this.token;
+    return localStorage.getItem('session');
   }
 
   static get() {

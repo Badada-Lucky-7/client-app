@@ -1,8 +1,0 @@
-p {
-  display: flex;
-  flex-direction: row;
-  label {
-    font-size: large;
-    padding: 10px;
-  }
-}

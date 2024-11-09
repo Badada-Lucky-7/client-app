@@ -1,6 +1,7 @@
 'use client';
 
-import session from '@/helpers/session';
+import SendIcon from '@mui/icons-material/Send';
+import Button from '@mui/material/Button';
 import axios from 'axios';
 import { useState } from 'react';
 import TextInput from '../TextInput';
@@ -15,9 +16,11 @@ const Form = () => {
         e.preventDefault();
         console.log(email, pw);
         axios
-          .post('/api/auth/sign-in', { email: email, password: pw }, { withCredentials: true })
+          .post('/api/auth/sign-in', { email: email, password: pw })
           .then((res) => {
-            session.set(JSON.stringify(res.data.accessToken));
+            if (res.status === 200) {
+              console.log('success');
+            }
           })
           .catch((e) => {
             if (e.status === 403) {
@@ -26,11 +29,14 @@ const Form = () => {
           });
       }}
     >
-      <TextInput placeholder="Email" value={email} onChange={setEmail} />
-      <TextInput placeholder="password" value={pw} onChange={setPw} type="password" />
-      <p>
-        <input type="submit" />
-      </p>
+      <TextInput label="Email" value={email} onChange={setEmail} />
+      <br />
+      <TextInput label="Password" value={pw} onChange={setPw} type="password" />
+      <br />
+      <br />
+      <Button variant="contained" endIcon={<SendIcon />} type="submit">
+        Send
+      </Button>
     </form>
   );
 };
