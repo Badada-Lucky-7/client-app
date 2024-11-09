@@ -14,13 +14,12 @@ const Form = () => {
         e.preventDefault();
         console.log(email, pw);
         axios
-          .get('/api/auth/sign-in', { params: { email: email } })
-          .then((res) => {
-            if (res.data.password === pw) {
-              console.log(true);
-            }
+          .post('/api/auth/sign-in', { email: email, password: pw }, { withCredentials: true })
+          .then((response) => {
+            const accessToken: string = response.data.accessToken;
+            console.log('Access Token:', accessToken);
           })
-          .catch(function (error) {});
+          .catch((e) => console.log(e));
       }}
     >
       <TextInput placeholder="email address" value={email} onChange={setEmail} />

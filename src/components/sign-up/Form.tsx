@@ -43,7 +43,14 @@ const Form = () => {
         e.preventDefault();
         console.log(email, pw);
         if (isValidEmail && isValidPw && isPwConfirm) {
-          axios.post('/api/auth/sign-up', { email: email, password: pw });
+          axios
+            .post('/api/auth/sign-up', { email: email, password: pw })
+            .then((response) => {
+              console.log(response.data);
+            })
+            .catch((e) => {
+              console.log(e);
+            });
           console.log(true);
         } else {
           console.log(false);
