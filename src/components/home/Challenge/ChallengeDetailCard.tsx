@@ -1,12 +1,12 @@
 'use client';
 
 import { Card } from '@mui/material';
+import axios from 'axios';
+import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
 import { ChallengeType, DetailChallengeType } from '@/types/Challenge';
 
-import axios from 'axios';
-import Image from 'next/image';
 import './ChallengeDetailCard.css';
 
 interface ChallengeDetailCardProps {
@@ -21,9 +21,9 @@ const ChallengeDetailCard = ({ challenge }: ChallengeDetailCardProps) => {
 
   useEffect(() => {
     if (contentRef.current) {
-      setMaxHeight(`${contentRef.current.scrollHeight}px`);
+      setMaxHeight(`${contentRef.current.scrollHeight + 178}px`);
     }
-  }, [challenge]);
+  }, [challenge, detailChallenge]);
 
   useEffect(() => {
     return () => setMaxHeight('100px');
@@ -44,13 +44,19 @@ const ChallengeDetailCard = ({ challenge }: ChallengeDetailCardProps) => {
 
   return (
     <Card ref={contentRef} className="challenge-detail-card" style={{ maxHeight: maxHeight }}>
-      <h2>{`${challenge.district} / ${challenge.bigCategory}`}</h2>
-      <h3>{challenge.text}</h3>
-      <Image src={detailChallenge?.imageURL ?? ''} alt="challenge" width={400} height={400} />
+      <span>{`${challenge.district} / ${challenge.bigCategory}`}</span>
+      <h2>{challenge.text}</h2>
+      <Image src={detailChallenge?.imageURL ?? ''} alt="challenge" width={400} height={178} />
       <div className="mission">
-        <span>{detailChallenge?.mission}</span>
-        <ul>
-          {detailChallenge?.attractions.map((attraction) => <li key={attraction.id}>{attraction.attraction}</li>)}
+        <span className="mission-title">{'Mission'}</span>
+        <p className="mission-description">{detailChallenge?.mission}</p>
+        <ul className="mission-list">
+          {detailChallenge?.attractions.map((attraction) => (
+            <li key={attraction.id} className="mission-item">
+              <div className="mission-item-title">{attraction.attraction}</div>
+              <div className="mission-item-address">{attraction.address}</div>
+            </li>
+          ))}
         </ul>
       </div>
     </Card>
