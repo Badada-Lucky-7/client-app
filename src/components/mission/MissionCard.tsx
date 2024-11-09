@@ -10,7 +10,81 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
 import { useSearchParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import balloon from '../../../public/asset/balloon.png';
+
+import { romanizeAddress } from '@/utils/i11n';
+import './MissionCard.css';
+
+const MissionTitle = ({
+  district,
+  bigCategory,
+  missionText,
+}: {
+  district: string | null;
+  bigCategory: string | null;
+  missionText: string;
+}) => {
+  return (
+    <div className="mission-card-title">
+      <Typography
+        gutterBottom
+        sx={{ color: 'text.secondary', fontSize: 14 }}
+      >{`${romanizeAddress(district ?? '')}(${district}) / ${bigCategory}`}</Typography>
+      <Typography variant="h3" component="div">
+        {missionText}
+      </Typography>
+    </div>
+  );
+};
+
+const MissionOpenCard = ({
+  name,
+  district,
+  bigCategory,
+  mission,
+}: {
+  name: string;
+  district: string | null;
+  bigCategory: string | null;
+  mission: MissionType;
+}) => {
+  const [open, setOpen] = useState(false);
+  return (
+    <div
+      style={{
+        backgroundImage: `url(${balloon.src})`,
+      }}
+    >
+      <Box sx={{ minWidth: 275 }}>
+        <Card variant="outlined">
+          <>
+            <CardContent>
+              <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 14 }}>
+                {`Challen-Day | Hello User ${name}!`}
+              </Typography>
+              <Typography variant="h6" component="div">
+                {`Today's challenge that you selected [${district}/${bigCategory}] is ${'this'}!`}
+              </Typography>
+              <Typography variant="h6">
+                {`Good Luck!`}
+                <br />
+              </Typography>
+            </CardContent>
+            <CardActions>
+              {open ? (
+                <Typography>{mission.mission}</Typography>
+              ) : (
+                <Button size="small" onClick={() => setOpen(true)}>{`Click to Open!`}</Button>
+              )}
+            </CardActions>
+          </>
+        </Card>
+      </Box>
+    </div>
+  );
+};
 
 const MissionCard = () => {
   const searchParams = useSearchParams();
@@ -46,27 +120,24 @@ const MissionCard = () => {
   }, [district, bigCategory, profile]);
 
   return (
-    <Box sx={{ minWidth: 275 }}>
-      <Card variant="outlined">
-        <React.Fragment>
-          <CardContent>
-            <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 14 }}>
-              {`Challen-Day | Hello User ${profile?.email}!`}
-            </Typography>
-            <Typography variant="h6" component="div">
-              {`Today's challenge that you selected [${district}/${bigCategory}] is ${'this'}!`}
-            </Typography>
-            <Typography variant="h6">
-              {`Good Luck!`}
-              <br />
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button size="small">{`Learn More`}</Button>
-          </CardActions>
-        </React.Fragment>
-      </Card>
-    </Box>
+    <>
+      <MissionTitle district={district} bigCategory={bigCategory} missionText={"Today's Mission"} />
+      {mission && (
+        <div className="container">
+          <div className="main-image">
+            <img src="/asset/sampleImage.png" alt="sampleImage" />
+          </div>
+          <div className="text-box">
+            <MissionOpenCard
+              name={profile?.email ?? ''}
+              district={district}
+              bigCategory={bigCategory}
+              mission={mission}
+            />
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 export default MissionCard;

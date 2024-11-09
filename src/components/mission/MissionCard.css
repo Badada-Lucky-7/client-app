@@ -1,0 +1,25 @@
+.mission-card-title {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  padding: 16px 0;
+
+  justify-content: center;
+  align-items: center;
+}
+
+.main-image {
+  position: absolute;
+  height: calc(100vh - 80px);
+  top: 50%;
+  left: 22%;
+}
+
+.text-box {
+  position: absolute;
+  height: calc(100vh - 80px);
+  top: 36%;
+  left: 45%;
+  border-color: black;
+}

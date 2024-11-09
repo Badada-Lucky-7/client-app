@@ -46,6 +46,12 @@ const useProfile = () => {
     refresh();
   }, []);
 
+  useEffect(() => {
+    if (profile) {
+      session.set(profile.accessToken);
+    }
+  }, [profile]);
+
   return { profile, refresh };
 };
 
