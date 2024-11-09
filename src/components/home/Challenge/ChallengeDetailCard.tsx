@@ -3,6 +3,7 @@
 import { Button, Card } from '@mui/material';
 import axios from 'axios';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 
 import { ChallengeType, DetailChallengeType } from '@/types/Challenge';
@@ -56,13 +57,8 @@ const ChallengeDetailCard = ({ challenge }: ChallengeDetailCardProps) => {
       <div className="mission">
         <div className="mission-header">
           <span className="mission-title">{'Mission'}</span>
-          <Button
-            className="mission-button"
-            onClick={() => {
-              alert('route 참가신청');
-            }}
-          >
-            {'참가 신청 / 미션 확인'}
+          <Button className="mission-button">
+            <Link href={`/challenge/${challenge.id}`}>{'참가 신청 / 미션 확인'}</Link>
           </Button>
         </div>
         <p className="mission-description">{detailChallenge?.mission}</p>
