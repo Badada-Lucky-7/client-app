@@ -61,7 +61,7 @@ export default function SetModal() {
     formData.append('multipartFile', image);
 
     try {
-      const response = await axios.post('/api/auth', formData, {
+      const response = await axios.post('/api/boards', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
