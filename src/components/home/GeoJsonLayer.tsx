@@ -23,35 +23,67 @@ const GeoJsonLayer = ({ onChange }: { onChange: (sgg: SggType | null) => void })
   }
 
   return (
-    <GeoJSON
-      data={geoData}
-      style={{
-        color: 'blue',
-        weight: 2,
-        fillColor: 'lightblue',
-        fillOpacity: 0.3,
-      }}
-      onEachFeature={(feature, layer) => {
-        const centroid = center(feature).geometry.coordinates;
-        const [lng, lat] = centroid;
+    <>
+      {geoData && (
+        <GeoJSON
+          data={
+            {
+              type: 'Feature',
+              geometry: {
+                type: 'Polygon',
+                coordinates: [
+                  [
+                    [-180, -90],
+                    [180, -90],
+                    [180, 90],
+                    [-180, 90],
+                    [-180, -90],
+                  ],
+                  ...(geoData as { features: { geometry: { coordinates: number[] } }[] }).features
+                    .map((feature) => feature.geometry.coordinates)
+                    .flat(),
+                ],
+              },
+            } as never
+          }
+          style={{
+            color: 'white',
+            fillColor: 'white',
+            fillOpacity: 1,
+            weight: 0,
+          }}
+        />
+      )}
+      <GeoJSON
+        data={geoData}
+        style={{
+          color: 'blue',
+          weight: 2,
+          fillColor: 'lightblue',
+          fillOpacity: 0.3,
+        }}
+        onEachFeature={(feature, layer) => {
+          const centroid = center(feature).geometry.coordinates;
+          const [lng, lat] = centroid;
 
-        layer.on({
-          mouseover: (e) => {
-            const map = e.target._map;
-            const point = map.latLngToLayerPoint(new LatLng(lat, lng));
+          layer.on({
+            mouseover: (e) => {
+              const map = e.target._map;
+              const point = map.latLngToLayerPoint(new LatLng(lat, lng));
 
-            onChange({
-              sgg: feature.properties.sgg as string,
-              sggnm: feature.properties.sggnm as string,
-              center: [point.y, point.x],
-            });
-          },
-          mouseout: () => {
-            onChange(null);
-          },
-        });
-      }}
-    />
+              onChange({
+                sgg: feature.properties.sgg as string,
+                sggnm: feature.properties.sggnm as string,
+                center: [point.y, point.x],
+              });
+            },
+            mouseout: () => {
+              onChange(null);
+            },
+          });
+        }}
+      />
+    </>
   );
 };
 
