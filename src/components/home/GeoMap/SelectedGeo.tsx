@@ -26,21 +26,12 @@ const SelectedGeo = ({ sgg }: { sgg: string }) => {
 
   return (
     <>
-      {/* 지도 영역 - 테두리 */}
-      <GeoJSON
-        data={geoData}
-        style={{
-          color: 'blue',
-          weight: 2,
-          opacity: 1,
-        }}
-      />
       {/* 지도 영역 */}
       <GeoJSON
         data={geoData}
         style={{
-          color: 'blue',
-          fillColor: 'red',
+          color: '#F0F0F0',
+          fillColor: '#06E5AD',
           fillOpacity: 1,
         }}
       />

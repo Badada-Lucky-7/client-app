@@ -63,7 +63,7 @@ const GeoJsonLayer = ({
       <GeoJSON
         data={geoData}
         style={{
-          color: 'blue',
+          color: '#F0F0F0',
           weight: 2,
           opacity: 1,
         }}
@@ -72,8 +72,8 @@ const GeoJsonLayer = ({
       <GeoJSON
         data={geoData}
         style={{
-          color: 'blue',
-          fillColor: sgg ? 'grey' : 'pink',
+          color: '#F0F0F0',
+          fillColor: '#ABDAF4',
           fillOpacity: 1,
         }}
         onEachFeature={(feature, layer) => {
