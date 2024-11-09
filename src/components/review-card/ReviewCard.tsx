@@ -14,7 +14,7 @@ const ReviewCard = () => {
         <div>
           <div className="profileBox">
             <div className="profileOwner">
-              <img src="/asset/sampleImage.png" alt="review_photo" className="profile_photo" />
+              <img src="/asset/sampleImage.png" alt="review_photo" className="photo" />
             </div>
             <div style={{ fontSize: 30, paddingLeft: 15, fontWeight: 500 }}>Nickname</div>
           </div>
@@ -26,7 +26,7 @@ const ReviewCard = () => {
         <div style={{ backgroundColor: 'pink', borderRadius: 20 }}>
           <div className="profileBox">
             <div className="profileUser">
-              <img src="/asset/sampleImage.png" alt="review_photo" className="profile_photo" />
+              <img src="/asset/sampleImage.png" alt="review_photo" className="photo" />
             </div>
             <div style={{ fontSize: 20, paddingLeft: 15 }}>Nickname</div>
           </div>
