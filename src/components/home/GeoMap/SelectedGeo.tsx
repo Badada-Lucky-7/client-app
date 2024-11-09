@@ -1,34 +1,50 @@
-import { useMemo } from 'react';
+'use client';
+
+import { useEffect, useState } from 'react';
 import { GeoJSON } from 'react-leaflet';
 
-import { SggType } from '@/types/Geo';
+const SelectedGeo = ({ sgg }: { sgg: string }) => {
+  const [geoData, setGeoData] = useState(null);
 
-interface SelectedGeoProps {
-  geoData: any;
-  sgg: SggType | null;
-}
+  useEffect(() => {
+    const debounce = setTimeout(() => {
+      fetch(`/geo/seoul_${sgg}.geojson`)
+        .then((response) => response.json())
+        .then((data) => setGeoData(data))
+        .catch((error) => console.error('GeoJSON data loading error:', error));
+    }, 100);
 
-const SelectedGeo = ({ geoData, sgg }: SelectedGeoProps) => {
-  const selectedData: any | null = useMemo(() => {
-    if (!geoData || !sgg) {
-      return null;
-    }
-    return (
-      (geoData as { features: { properties: { sgg: string } }[] }).features.find(
-        (feature) => feature.properties.sgg === sgg.sgg
-      ) ?? null
-    );
-  }, [sgg, geoData]);
+    return () => {
+      clearTimeout(debounce);
+      setGeoData(null);
+    };
+  }, [sgg]);
+
+  if (!geoData || !sgg) {
+    return null;
+  }
 
   return (
-    <GeoJSON
-      data={selectedData}
-      style={{
-        color: 'red',
-        weight: 2,
-        fillColor: 'white',
-      }}
-    />
+    <>
+      {/* 지도 영역 - 테두리 */}
+      <GeoJSON
+        data={geoData}
+        style={{
+          color: 'blue',
+          weight: 2,
+          opacity: 1,
+        }}
+      />
+      {/* 지도 영역 */}
+      <GeoJSON
+        data={geoData}
+        style={{
+          color: 'blue',
+          fillColor: 'red',
+          fillOpacity: 1,
+        }}
+      />
+    </>
   );
 };
 

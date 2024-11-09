@@ -11,6 +11,8 @@ import SeoulPopup from './SeoulPopup';
 
 import { romanizeAddress } from '@/utils/i11n';
 import { Typography } from '@mui/material';
+import SelectedGeo from './SelectedGeo';
+
 import 'leaflet/dist/leaflet.css';
 import './SeoulMap.css';
 
@@ -37,7 +39,9 @@ const SeoulMap = () => {
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
-            <GeoJsonLayer onChange={setSgg} />
+
+            <GeoJsonLayer sgg={sgg} onChange={setSgg} />
+            {sgg && <SelectedGeo sgg={sgg.sgg} />}
 
             {sgg && (
               <SeoulPopup
