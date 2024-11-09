@@ -58,7 +58,7 @@ const Form = () => {
       }}
     >
       <TextInput placeholder="nickname" value={nickName} onChange={setNickName} />
-      <TextInput placeholder="email address" value={email} onChange={setEmail} />
+      <TextInput placeholder="Email" value={email} onChange={setEmail} />
       <input type="button" value="이메일 확인" onClick={EmailConfirm} />
       <TextInput placeholder="password" value={pw} onChange={setPw} type="password" />
       <TextInput placeholder="password confirmation" value={pwConfirm} onChange={setPwConfirm} type="password" />

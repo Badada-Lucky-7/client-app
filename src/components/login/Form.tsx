@@ -1,5 +1,6 @@
 'use client';
 
+import session from '@/helpers/session';
 import axios from 'axios';
 import { useState } from 'react';
 import TextInput from '../TextInput';
@@ -15,14 +16,17 @@ const Form = () => {
         console.log(email, pw);
         axios
           .post('/api/auth/sign-in', { email: email, password: pw }, { withCredentials: true })
-          .then((response) => {
-            const accessToken: string = response.data.accessToken;
-            console.log('Access Token:', accessToken);
+          .then((res) => {
+            session.set(JSON.stringify(res.data.accessToken));
           })
-          .catch((e) => console.log(e));
+          .catch((e) => {
+            if (e.status === 403) {
+              console.log(e.code);
+            }
+          });
       }}
     >
-      <TextInput placeholder="email address" value={email} onChange={setEmail} />
+      <TextInput placeholder="Email" value={email} onChange={setEmail} />
       <TextInput placeholder="password" value={pw} onChange={setPw} type="password" />
       <p>
         <input type="submit" />
