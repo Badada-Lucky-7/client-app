@@ -1,11 +1,14 @@
+'use client';
+
 import MissionCard from '@/components/mission/MissionCard';
-import './page.css';
+import { Skeleton } from '@mui/material';
+import { Suspense } from 'react';
 
 const Mission = () => {
   return (
-    <div className="mission-page">
+    <Suspense fallback={<Skeleton variant="rectangular" width={'100vw'} height={'100vh'} />}>
       <MissionCard />
-    </div>
+    </Suspense>
   );
 };
 
