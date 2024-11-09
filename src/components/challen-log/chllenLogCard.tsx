@@ -58,6 +58,7 @@ const ChallenLogCard = () => {
     <>
       {gatheringData?.map((data) => (
         <JoinCard
+          key={data.gatherings.id}
           id={data.gatherings.id}
           likeCount={data.gatherings.likeCount}
           maxCount={data.gatherings.maxCount}

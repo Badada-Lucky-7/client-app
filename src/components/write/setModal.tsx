@@ -31,7 +31,7 @@ export default function SetModal() {
   return (
     <span className="container">
       <Button onClick={handleOpen}>Write Review</Button>
-      <Fab color="secondary" aria-label="edit" style={{ width: 40, height: 40 }} onClick={handleOpen}>
+      <Fab color="primary" aria-label="edit" style={{ width: 40, height: 40 }} onClick={handleOpen}>
         <EditIcon />
       </Fab>
       <Modal
@@ -49,8 +49,11 @@ export default function SetModal() {
               <div>
                 <div className="category">강남구/음식</div>
                 <div className="note">글의 제목을 작성해주세요</div>
+                <form>
+                  <input type="file" accept="image/png, image/jpeg, image/jpg" />
+                </form>
               </div>
-              <TextField id="outlined-multiline-static" label="Challenge" multiline rows={18} style={{ width: 300 }} />
+              <TextField id="outlined-multiline-static" label="Challenge" multiline rows={18} className="textfield" />
             </div>
           </Typography>
         </Box>
