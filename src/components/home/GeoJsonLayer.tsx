@@ -1,15 +1,33 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { SetStateAction, useEffect, useMemo, useState } from 'react';
 import { GeoJSON } from 'react-leaflet';
 
 import center from '@turf/center';
 
 import { SggType } from '@/types/Geo';
 import { LatLng } from 'leaflet';
+import SelectedGeo from './SelectedGeo';
 
-const GeoJsonLayer = ({ onChange }: { onChange: (sgg: SggType | null) => void }) => {
+const GeoJsonLayer = ({
+  sgg,
+  onChange,
+}: {
+  sgg: SggType | null;
+  onChange: React.Dispatch<SetStateAction<SggType | null>>;
+}) => {
   const [geoData, setGeoData] = useState(null);
+
+  const selectedData: any = useMemo(() => {
+    if (!geoData || !sgg) {
+      return null;
+    }
+    return (
+      (geoData as { features: { properties: { sgg: string } }[] }).features.find(
+        (feature) => feature.properties.sgg === sgg.sgg
+      ) ?? null
+    );
+  }, [sgg, geoData]);
 
   useEffect(() => {
     fetch('/geo/seoul_sggnm.geojson')
@@ -24,36 +42,36 @@ const GeoJsonLayer = ({ onChange }: { onChange: (sgg: SggType | null) => void })
 
   return (
     <>
-      {geoData && (
-        <GeoJSON
-          data={
-            {
-              type: 'Feature',
-              geometry: {
-                type: 'Polygon',
-                coordinates: [
-                  [
-                    [-180, -90],
-                    [180, -90],
-                    [180, 90],
-                    [-180, 90],
-                    [-180, -90],
-                  ],
-                  ...(geoData as { features: { geometry: { coordinates: number[] } }[] }).features
-                    .map((feature) => feature.geometry.coordinates)
-                    .flat(),
+      <SelectedGeo geoData={geoData} sgg={sgg} />
+      <GeoJSON
+        data={
+          {
+            type: 'Feature',
+            geometry: {
+              type: 'Polygon',
+              coordinates: [
+                [
+                  [-180, -90],
+                  [180, -90],
+                  [180, 90],
+                  [-180, 90],
+                  [-180, -90],
                 ],
-              },
-            } as never
-          }
-          style={{
-            color: 'white',
-            fillColor: 'white',
-            fillOpacity: 1,
-            weight: 0,
-          }}
-        />
-      )}
+                ...(geoData as { features: { geometry: { coordinates: number[] } }[] }).features
+                  .map((feature) => feature.geometry.coordinates)
+                  .flat(),
+              ],
+            },
+          } as never
+        }
+        style={{
+          color: 'white',
+          fillColor: 'white',
+          fillOpacity: 1,
+          weight: 0,
+        }}
+      />
+      {/* 지도 영역 */}
       <GeoJSON
         data={geoData}
         style={{
@@ -77,7 +95,11 @@ const GeoJsonLayer = ({ onChange }: { onChange: (sgg: SggType | null) => void })
                 center: [point.y, point.x],
               });
             },
-            mouseout: () => {
+            mouseout: async () => {
+              if (!sgg) {
+                return;
+              }
+
               onChange(null);
             },
           });
