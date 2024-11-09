@@ -11,44 +11,48 @@ import { useState } from 'react';
 import './JoinCard.css';
 
 interface Props {
-  token: string | null;
-  content: string;
-  userCount: number;
+  id: number;
+  nickName: string;
+  text: string;
+  challengeId: number;
+  maxCount: number;
+  likeCount: number;
 }
 
-const JoinCard = ({ token, content, userCount }: Props) => {
+const JoinCard = ({ id, nickName, text, challengeId, maxCount, likeCount }: Props) => {
   const Profile = () => {
     return (
       <div className="profileBox">
         <div className="profile">
           <img src="/asset/sampleImage.png" alt="profile_photo" className="photo" />
         </div>
-        {token}
+        {nickName}
       </div>
     );
   };
-  const [count, setCount] = useState(userCount);
+  const [count, setCount] = useState(likeCount);
   return (
     <div className="container">
       <Box>
-        <Card variant="outlined" style={{ backgroundColor: 'pink', borderRadius: 25 }}>
+        <Card variant="outlined" sx={{ minWidth: 500 }} style={{ backgroundColor: 'pink', borderRadius: 25 }}>
           <React.Fragment>
             <CardContent>
               <Typography gutterBottom sx={{ fontSize: 20 }}>
                 <Profile />
               </Typography>
               <Typography sx={{ fontSize: 15, padding: 1 }} component="div">
-                {content}
+                {text}
               </Typography>
               <div className="join-button">
-                <Typography sx={{ fontSize: 14, padding: 1 }}>({count}/6)</Typography>
+                <Typography sx={{ fontSize: 14, padding: 1 }}>
+                  ({count}/{maxCount})
+                </Typography>
                 <CardActions>
                   <Button
                     variant="outlined"
                     size="small"
                     onClick={(e) => {
                       setCount(count + 1);
-                      console.log(token);
                     }}
                   >{`Join`}</Button>
                 </CardActions>
