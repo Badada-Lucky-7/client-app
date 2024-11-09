@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ChallengeType, DetailChallengeType } from '@/types/Challenge';
 
 import axios from 'axios';
+import Image from 'next/image';
 import './ChallengeDetailCard.css';
 
 interface ChallengeDetailCardProps {
@@ -44,9 +45,14 @@ const ChallengeDetailCard = ({ challenge }: ChallengeDetailCardProps) => {
   return (
     <Card ref={contentRef} className="challenge-detail-card" style={{ maxHeight: maxHeight }}>
       <h2>{`${challenge.district} / ${challenge.bigCategory}`}</h2>
-      {Array.from({ length: 5 }, (_, i) => (
-        <div key={i}>star</div>
-      ))}
+      <h3>{challenge.text}</h3>
+      <Image src={detailChallenge?.imageURL ?? ''} alt="challenge" width={400} height={400} />
+      <div className="mission">
+        <span>{detailChallenge?.mission}</span>
+        <ul>
+          {detailChallenge?.attractions.map((attraction) => <li key={attraction.id}>{attraction.attraction}</li>)}
+        </ul>
+      </div>
     </Card>
   );
 };
