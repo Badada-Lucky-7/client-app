@@ -1,6 +1,6 @@
 'use client';
 
-import { Card } from '@mui/material';
+import { Button, Card } from '@mui/material';
 import axios from 'axios';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
@@ -46,9 +46,25 @@ const ChallengeDetailCard = ({ challenge }: ChallengeDetailCardProps) => {
     <Card ref={contentRef} className="challenge-detail-card" style={{ maxHeight: maxHeight }}>
       <span>{`${challenge.district} / ${challenge.bigCategory}`}</span>
       <h2>{challenge.text}</h2>
-      <Image src={detailChallenge?.imageURL ?? ''} alt="challenge" width={400} height={178} />
+      <Image
+        className="mission-thumnail"
+        src={detailChallenge?.imageURL ?? ''}
+        alt={detailChallenge?.mission ?? challenge.text}
+        width={400}
+        height={178}
+      />
       <div className="mission">
-        <span className="mission-title">{'Mission'}</span>
+        <div className="mission-header">
+          <span className="mission-title">{'Mission'}</span>
+          <Button
+            className="mission-button"
+            onClick={() => {
+              alert('route 참가신청');
+            }}
+          >
+            {'참가 신청 / 미션 확인'}
+          </Button>
+        </div>
         <p className="mission-description">{detailChallenge?.mission}</p>
         <ul className="mission-list">
           {detailChallenge?.attractions.map((attraction) => (

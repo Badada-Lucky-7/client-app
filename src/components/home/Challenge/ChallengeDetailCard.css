@@ -4,10 +4,26 @@
   overflow: hidden;
   transition: max-height 0.3s ease;
 
+  .mission-thumnail {
+    margin: 0 auto;
+  }
+
   .mission {
-    .mission-title {
-      font-size: 1.5rem;
-      font-weight: 600;
+    .mission-header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+      .mission-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+
+      .mission-button {
+        font-size: 1rem;
+        font-weight: 600;
+      }
     }
     .mission-description {
       font-size: 1rem;
