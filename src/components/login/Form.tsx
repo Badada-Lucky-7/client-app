@@ -9,6 +9,7 @@ import { useState } from 'react';
 
 import TextInput from '../textInput/TextInput';
 
+import session from '@/helpers/session';
 import './Form.css';
 
 const Form = () => {
@@ -34,10 +35,11 @@ const Form = () => {
           .then(async (response) => {
             if (response.data) {
               console.log(response.data);
+              session.set(response.data.accessToken);
 
               if (redirectTo) {
                 const decoded = decodeURIComponent(redirectTo);
-                console.log(decoded);
+
                 route.replace(decoded);
               } else {
                 route.replace('/');
