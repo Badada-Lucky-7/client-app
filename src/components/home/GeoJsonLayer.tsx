@@ -30,12 +30,21 @@ const GeoJsonLayer = ({ onChange }: { onChange: (sgg: SggType | null) => void })
       }}
       onEachFeature={(feature, layer) => {
         layer.on({
-          mouseover: () => {
+          mouseover: async (e) => {
+            const { x: lat, y: lng } = e.layerPoint;
             onChange({
               sgg: feature.properties.sgg as string,
               sggnm: feature.properties.sggnm as string,
+              center: [lng, lat],
             });
-            console.log(feature.properties);
+          },
+          mousemove: async (e) => {
+            const { x: lat, y: lng } = e.layerPoint;
+            onChange({
+              sgg: feature.properties.sgg as string,
+              sggnm: feature.properties.sggnm as string,
+              center: [lng, lat],
+            });
           },
           mouseout: () => {
             onChange(null);

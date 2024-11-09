@@ -35,8 +35,8 @@ const SeoulMap = () => {
           <div
             style={{
               position: 'absolute',
-              top: 0,
-              left: 0,
+              top: sgg.center[0],
+              left: sgg.center[1],
               padding: '10px',
               backgroundColor: 'white',
               border: '1px solid black',
