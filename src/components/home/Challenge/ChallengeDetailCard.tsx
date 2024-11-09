@@ -1,8 +1,11 @@
+'use client';
+
 import { Card } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 
-import { ChallengeType } from '@/types/Challenge';
+import { ChallengeType, DetailChallengeType } from '@/types/Challenge';
 
+import axios from 'axios';
 import './ChallengeDetailCard.css';
 
 interface ChallengeDetailCardProps {
@@ -11,6 +14,8 @@ interface ChallengeDetailCardProps {
 
 const ChallengeDetailCard = ({ challenge }: ChallengeDetailCardProps) => {
   const [maxHeight, setMaxHeight] = useState('100px');
+  const [detailChallenge, setDetailChallenge] = useState<DetailChallengeType | null>(null);
+
   const contentRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -22,6 +27,17 @@ const ChallengeDetailCard = ({ challenge }: ChallengeDetailCardProps) => {
   useEffect(() => {
     return () => setMaxHeight('100px');
   }, []);
+
+  useEffect(() => {
+    axios
+      .get(`/api/challenge?district=${challenge.district}&bigCategory=${challenge.bigCategory}`)
+      .then((res) => {
+        setDetailChallenge(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, [challenge.bigCategory, challenge.district]);
 
   return (
     <Card ref={contentRef} className="challenge-detail-card" style={{ maxHeight: maxHeight }}>
