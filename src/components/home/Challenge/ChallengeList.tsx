@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { ChallengeType } from '@/types/Challenge';
 import ChallengeCard from './ChallengeCard';
 
+import ChallengeDetailCard from './ChallengeDetailCard';
 import './ChallengeList.css';
 
 const ChallengeList = () => {
@@ -24,15 +25,19 @@ const ChallengeList = () => {
   }, []);
   return (
     <div>
-      <h1>Challenge List</h1>
       <ul className="challenge-list">
         {challenList.map((challenge) => {
           if (selected?.district === challenge.district) {
-            // selected challenge card
-            return <div key={challenge.district}>{challenge.district}</div>;
+            return <ChallengeDetailCard key={challenge.district} challenge={challenge} />;
           }
           return (
-            <ChallengeCard key={challenge.district} challenge={challenge} onClick={() => setSelected(challenge)} />
+            <ChallengeCard
+              key={challenge.district}
+              challenge={challenge}
+              onClick={() => {
+                setSelected(challenge);
+              }}
+            />
           );
         })}
       </ul>
