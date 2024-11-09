@@ -30,7 +30,9 @@ const ChallengeDetailCard = ({ challenge }: ChallengeDetailCardProps) => {
 
   useEffect(() => {
     axios
-      .get(`/api/challenge?district=${challenge.district}&bigCategory=${challenge.bigCategory}`)
+      .get(
+        `/api/challenge/attractions-by-district-category?district=${encodeURI(challenge.district)}&bigCategory=${encodeURI(challenge.bigCategory)}`
+      )
       .then((res) => {
         setDetailChallenge(res.data);
       })

@@ -6,9 +6,9 @@ export async function GET(request: NextRequest) {
   const district = searchParams.get('district');
   const bigCategory = searchParams.get('bigCategory');
 
-  const res = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_HOST}/challenge`, {
+  const res = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_HOST}/challenge/attractions-by-district-category`, {
     params: { district, bigCategory },
   });
-  console.log(res);
+
   return NextResponse.json(res.data);
 }
