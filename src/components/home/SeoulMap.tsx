@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
 
 import { SggType } from '@/types/Geo';
+
 import GeoJsonLayer from './GeoJsonLayer';
 import SeoulPopup from './SeoulPopup';
 
