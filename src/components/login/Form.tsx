@@ -4,12 +4,10 @@ import SendIcon from '@mui/icons-material/Send';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
 import TextInput from '../textInput/TextInput';
-
-import useProfile from '@/hooks/useProfile';
 
 import './Form.css';
 
@@ -17,8 +15,10 @@ const Form = () => {
   const [email, setEmail] = useState('');
   const [pw, setPw] = useState('');
 
-  const { refresh } = useProfile();
   const route = useRouter();
+  const searchParams = useSearchParams();
+
+  const redirectTo = searchParams.get('redirectTo');
 
   return (
     <Box
@@ -33,9 +33,15 @@ const Form = () => {
           .post('/api/auth/sign-in', { email: email, password: pw })
           .then(async (response) => {
             if (response.data) {
-              await refresh(response.data.accessToken);
+              console.log(response.data);
 
-              route.replace('/');
+              if (redirectTo) {
+                const decoded = decodeURIComponent(redirectTo);
+                console.log(decoded);
+                route.replace(decoded);
+              } else {
+                route.replace('/');
+              }
             }
           })
           .catch((e) => {
