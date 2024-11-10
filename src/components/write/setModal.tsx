@@ -25,7 +25,7 @@ const style = {
   p: 4,
 };
 
-export default function SetModal() {
+export default function SetModal({ district, bigCategory }: { district: string; bigCategory: string }) {
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState<File | null>(null);
   const [title, setTitle] = useState('');
@@ -54,16 +54,13 @@ export default function SetModal() {
       return;
     }
 
-    const formData = new FormData();
-    formData.append('title', title);
-    formData.append('text', content);
-    formData.append('multipartFile', image);
-
     try {
-      const response = await axios.post('/api/boards', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+      const response = await axios.post('/api/boards', {
+        title,
+        text: content,
+        multipartFile: image,
+        district,
+        bigCategory,
       });
     } catch (error) {
       console.error(error);
