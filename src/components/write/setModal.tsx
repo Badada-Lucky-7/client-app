@@ -30,12 +30,10 @@ export default function SetModal() {
   const [image, setImage] = useState<File | null>(null);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
-    setErrorMessage('');
     setTitle('');
     setContent('');
     setImage(null);
@@ -46,7 +44,6 @@ export default function SetModal() {
       setImage(e.target.files[0]);
     } else {
       setImage(null);
-      setErrorMessage('Please select only one image file.');
     }
   };
 
@@ -115,12 +112,9 @@ export default function SetModal() {
                     style={{ width: 300 }}
                     value={title}
                     onChange={onChangeTitle}
-                    error={!title && !!errorMessage}
-                    helperText={!title && errorMessage ? 'Title is required' : ''}
                   />
                 </Box>
                 <input type="file" accept="image/png, image/jpeg, image/jpg" onChange={onFileChange} multiple={false} />
-                {errorMessage && !image && <p className="error-text">{errorMessage}</p>}
               </div>
               <div className="textArea">
                 <TextField
@@ -132,14 +126,11 @@ export default function SetModal() {
                   className="textfield"
                   value={content}
                   onChange={onChangeContent}
-                  error={!content && !!errorMessage}
-                  helperText={!content && errorMessage ? 'Content is required' : ''}
                 />
                 <Button variant="contained" endIcon={<SendIcon />} type="submit">
                   Send
                 </Button>
               </div>
-              {errorMessage && <p className="error-text">{errorMessage}</p>}
             </div>
           </Typography>
         </Box>

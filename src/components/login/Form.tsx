@@ -57,6 +57,12 @@ const Form = () => {
                 return;
               }
 
+              if (response.data.team !== null) {
+                route.replace('/challen-log');
+              } else {
+                route.replace('/');
+              }
+
               if (redirectTo) {
                 const decoded = decodeURIComponent(redirectTo);
 
