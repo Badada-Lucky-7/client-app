@@ -2,6 +2,7 @@
 
 import useProfile from '@/hooks/useProfile';
 import { GatheringType } from '@/types/Gathering';
+import { Button, Card } from '@mui/material';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import JoinCard from '../join-card/JoinCard';
@@ -14,6 +15,8 @@ const ChallenLogCard = () => {
   const { profile } = useProfile();
 
   const [gatheringData, setGatheringData] = useState<GatheringResponse[] | null>(null);
+  const [open, setOpen] = useState(false);
+  const [text, setText] = useState('');
 
   useEffect(() => {
     if (!profile) {
@@ -41,6 +44,34 @@ const ChallenLogCard = () => {
 
   return (
     <>
+      <Button onClick={() => setOpen(true)}>{`Let's gathering`}</Button>
+      {open && (
+        <Card>
+          <textarea value={text} onChange={(e) => setText(e.target.value)} style={{ width: '100%', height: '100px' }} />
+          <Button
+            onClick={async () => {
+              if (!profile) {
+                return;
+              }
+              await axios.post(
+                `/api/gathering`,
+                {
+                  maxCount: 10,
+                  text,
+                },
+                {
+                  headers: {
+                    Authorization: `Bearer ${profile.accessToken}`,
+                  },
+                }
+              );
+              setOpen(false);
+            }}
+          >
+            {`Submit`}
+          </Button>
+        </Card>
+      )}
       {gatheringData?.map((data) => (
         <JoinCard
           key={data.gatherings.id}

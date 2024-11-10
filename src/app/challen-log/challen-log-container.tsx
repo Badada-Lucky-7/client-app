@@ -6,15 +6,10 @@ import SetModal from '@/components/write/setModal';
 import useProfile from '@/hooks/useProfile';
 import { BoardCommentType, BoardType } from '@/types/Board';
 import axios from 'axios';
-import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 const ChallengeLogContainer = () => {
   const { profile } = useProfile();
-  const param = useSearchParams();
-
-  const district = param.get('district');
-  const bigCategory = param.get('bigCategory');
 
   const [board, setBoard] = useState<
     {
@@ -22,10 +17,6 @@ const ChallengeLogContainer = () => {
       boardComments: BoardCommentType[];
     }[]
   >([]);
-
-  const router = useRouter();
-
-  console.log(board);
 
   useEffect(() => {
     if (!profile) {
@@ -40,7 +31,7 @@ const ChallengeLogContainer = () => {
       .then((res) => {
         setBoard(res.data);
       });
-  }, [profile, router]);
+  }, [profile]);
 
   return (
     <div className="challen-log-container">
@@ -49,7 +40,7 @@ const ChallengeLogContainer = () => {
           <span className="title" style={{ fontSize: 17, fontWeight: 550 }}>
             {'Succeeded people in the challenge'}
           </span>
-          {<SetModal district={district} bigCategory={bigCategory} />}
+          {<SetModal district={profile?.district} bigCategory={profile?.bigCategory} />}
         </div>
         <ReviewCard board={board} />
       </div>

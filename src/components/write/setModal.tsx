@@ -27,7 +27,7 @@ const style = {
   p: 4,
 };
 
-export default function SetModal({ district, bigCategory }: { district: string | null; bigCategory: string | null }) {
+export default function SetModal({ district, bigCategory }: { district?: string; bigCategory?: string }) {
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState<File | null>(null);
 
@@ -76,9 +76,10 @@ export default function SetModal({ district, bigCategory }: { district: string |
         },
       });
 
-      console.log(response);
+      setOpen(false);
     } catch (error) {
       console.error(error);
+      setOpen(false);
     }
   };
 
