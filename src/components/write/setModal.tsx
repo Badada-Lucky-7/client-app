@@ -1,6 +1,7 @@
 'use client';
 
 import useProfile from '@/hooks/useProfile';
+import { koreanToEnglishCategory, romanizeAddress } from '@/utils/i11n';
 import EditIcon from '@mui/icons-material/Edit';
 import SendIcon from '@mui/icons-material/Send';
 import Box from '@mui/material/Box';
@@ -26,7 +27,7 @@ const style = {
   p: 4,
 };
 
-export default function SetModal({ district, bigCategory }: { district?: string; bigCategory?: string }) {
+export default function SetModal({ district, bigCategory }: { district: string | null; bigCategory: string | null }) {
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState<File | null>(null);
 
@@ -100,7 +101,7 @@ export default function SetModal({ district, bigCategory }: { district?: string;
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             <div className="modal-container">
               <div>
-                <div className="category">Gangnam-gu/Food</div>
+                <div className="category">{`${romanizeAddress(district ?? '')} (${district}) / ${koreanToEnglishCategory(bigCategory ?? '')}`}</div>
                 <Box
                   component="form"
                   onSubmit={handleSubmit}

@@ -1,6 +1,7 @@
 import { Skeleton } from '@mui/material';
 import { Suspense } from 'react';
 import ChallengeLogContainer from './challen-log-container';
+
 import './challen-log.css';
 
 const ChallenLog = () => {
