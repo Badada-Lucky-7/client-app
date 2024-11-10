@@ -4,8 +4,8 @@ const ReviewCard = () => {
   return (
     <span className="reviewBox">
       <div>
-        <div style={{ fontSize: 15, fontWeight: 350, paddingBottom: 1 }}>강남구/음식</div>
-        <div style={{ fontSize: 25, fontWeight: 600, paddingBottom: 5 }}>제가 첫번째 챌린지 성공자입니다.^^</div>
+        <div style={{ fontSize: 15, fontWeight: 350, paddingBottom: 1 }}>Gangnam-gu/Food</div>
+        <div style={{ fontSize: 25, fontWeight: 600, paddingBottom: 5 }}>I am the first who successed challenge.^^</div>
         <div className="photo">
           <img src="/asset/sampleImage.png" alt="review_photo" className="review-photo" />
         </div>
@@ -18,10 +18,7 @@ const ReviewCard = () => {
             </div>
             <div style={{ fontSize: 30, paddingLeft: 15, fontWeight: 500 }}>Nickname</div>
           </div>
-          <div className="detail">
-            디테일한 리뷰 내용입니다.디테일한 리뷰 내용입니다.디테일한 리뷰 내용입니다.디테일한 리뷰 내용입니다.디테일한
-            리뷰 내용입니다.
-          </div>
+          <div className="detail">Detail Review.</div>
         </div>
         <div style={{ backgroundColor: 'pink', borderRadius: 20 }}>
           <div className="profileBox">
@@ -30,7 +27,7 @@ const ReviewCard = () => {
             </div>
             <div style={{ fontSize: 20, paddingLeft: 15 }}>Nickname</div>
           </div>
-          <div className="detail">댓글입니다.댓글입니다.댓글입니다.댓글입니다.댓글입니다.</div>
+          <div className="detail">Comment.</div>
         </div>
       </div>
     </span>

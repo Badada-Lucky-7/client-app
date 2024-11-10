@@ -30,12 +30,23 @@ export default function SetModal() {
   const [image, setImage] = useState<File | null>(null);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    setErrorMessage('');
+    setTitle('');
+    setContent('');
+    setImage(null);
+  };
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
+    if (e.target.files && e.target.files.length === 1) {
       setImage(e.target.files[0]);
+    } else {
+      setImage(null);
+      setErrorMessage('Please select only one image file.');
     }
   };
 
@@ -51,7 +62,7 @@ export default function SetModal() {
     e.preventDefault();
 
     if (!title || !content || !image) {
-      console.log('Please complete all fields');
+      setErrorMessage('Please complete all fields');
       return;
     }
 
@@ -67,13 +78,15 @@ export default function SetModal() {
         },
       });
       console.log('Post submitted successfully:', response.data);
+      handleClose(); // Close modal on success
     } catch (error) {
       console.error('Error submitting post:', error);
+      setErrorMessage('Error submitting post. Please try again.');
     }
   };
 
   return (
-    <span className="container">
+    <div className="container">
       <Button onClick={handleOpen}>Write Review</Button>
       <Fab color="primary" aria-label="edit" style={{ width: 40, height: 40 }} onClick={handleOpen}>
         <EditIcon />
@@ -106,9 +119,12 @@ export default function SetModal() {
                     style={{ width: 300 }}
                     value={title}
                     onChange={onChangeTitle}
+                    error={!title && !!errorMessage}
+                    helperText={!title && errorMessage ? 'Title is required' : ''}
                   />
                 </Box>
-                <input type="file" accept="image/png, image/jpeg, image/jpg" onChange={onFileChange} />
+                <input type="file" accept="image/png, image/jpeg, image/jpg" onChange={onFileChange} multiple={false} />
+                {errorMessage && !image && <p className="error-text">{errorMessage}</p>}
               </div>
               <div className="textArea">
                 <TextField
@@ -120,15 +136,18 @@ export default function SetModal() {
                   className="textfield"
                   value={content}
                   onChange={onChangeContent}
+                  error={!content && !!errorMessage}
+                  helperText={!content && errorMessage ? 'Content is required' : ''}
                 />
                 <Button variant="contained" endIcon={<SendIcon />} type="submit">
                   Send
                 </Button>
               </div>
+              {errorMessage && <p className="error-text">{errorMessage}</p>}
             </div>
           </Typography>
         </Box>
       </Modal>
-    </span>
+    </div>
   );
 }
