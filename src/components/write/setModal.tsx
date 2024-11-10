@@ -62,7 +62,6 @@ export default function SetModal() {
     e.preventDefault();
 
     if (!title || !content || !image) {
-      setErrorMessage('Please complete all fields');
       return;
     }
 
@@ -77,11 +76,8 @@ export default function SetModal() {
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log('Post submitted successfully:', response.data);
-      handleClose(); // Close modal on success
     } catch (error) {
-      console.error('Error submitting post:', error);
-      setErrorMessage('Error submitting post. Please try again.');
+      console.error(error);
     }
   };
 

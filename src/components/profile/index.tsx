@@ -4,6 +4,7 @@ import useProfile from '@/hooks/useProfile';
 import { Box, Card, Typography } from '@mui/material';
 import Image from 'next/image';
 
+import { grey } from '@mui/material/colors';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import './style.css';
@@ -32,8 +33,9 @@ const ProfileContainer = () => {
       setBadge(res.data);
     });
   }, [profile]);
+
   return (
-    <div className="profile">
+    <div className="profile-page">
       <Card
         style={{
           display: 'flex',
@@ -47,7 +49,35 @@ const ProfileContainer = () => {
         }}
       >
         <Image src={'/asset/profile.svg'} alt={'profile'} width={400} height={340} />
-        <Typography variant="h4">{profile?.email}</Typography>
+        <Typography
+          variant="h4"
+          style={{
+            fontSize: 24,
+          }}
+        >
+          {profile?.nickName}
+        </Typography>
+        <Typography
+          variant="h4"
+          style={{
+            color: grey[800],
+            fontSize: 16,
+          }}
+        >
+          {profile?.email}
+        </Typography>
+        <div
+          style={{
+            color: grey[800],
+            backgroundColor: '#FCC4DD',
+            borderRadius: 12,
+            padding: 8,
+            minWidth: 150,
+            textAlign: 'center',
+          }}
+        >
+          {`LV. ${profile?.level}`}
+        </div>
       </Card>
       <Card style={{ padding: 24, flex: 1, height: '100%', maxWidth: 400, backgroundColor: '#FFEEEE' }}>
         <Typography variant="h4" style={{ textAlign: 'center' }}>

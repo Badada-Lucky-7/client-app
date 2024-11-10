@@ -23,14 +23,13 @@ const Form = () => {
   const router = useRouter();
 
   function EmailConfirm() {
-    axios.post('/api/auth/check-email-duplicate', { email: email }).then((res) => {
+    axios.post('/api/auth/check-email-duplicate', { email }).then((res) => {
       if (res.status == 200) {
         if (!validateEmail(email)) {
           alert('Confirm your Email!');
           setIsValidEmail(false);
         } else {
           setIsValidEmail(true);
-          console.log(email);
         }
       } else {
         setIsValidEmail(false);
@@ -47,12 +46,10 @@ const Form = () => {
       setIsPwConfirm(false);
     } else {
       setIsValidPw(true);
-      console.log(pw);
     }
   }
   function NicknameConfirm() {
     axios.post('/api/auth/check-nickname-duplicate', { nickName: nickName }).then((res) => {
-      console.log(res.data);
       if (res.status === 200) {
         setIsValidNickName(true);
       } else {
@@ -82,45 +79,66 @@ const Form = () => {
         autoComplete="off"
         onSubmit={(e) => {
           e.preventDefault();
-          console.log(email, pw);
+
           if (isValidEmail && isValidPw && isPwConfirm && isValidNickName) {
-            axios
-              .post('/api/auth/sign-up', { email: email, password: pw, nickName: nickName })
-              .then((response) => {
-                console.log(response.data);
-                router.replace('/login');
-              })
-              .catch((e) => {
-                console.log(e);
-              });
-            console.log(true);
-          } else {
-            console.log(false);
+            axios.post('/api/auth/sign-up', { email: email, password: pw, nickName: nickName }).then((response) => {
+              router.replace('/login');
+            });
           }
         }}
       >
         <Box>
           <TextInput label="nickname" value={nickName} onChange={setNickName} />
           <Button variant="text" onClick={NicknameConfirm}>
-            닉네임 중복 확인
+            {'Check Nickname'}
           </Button>
+          {isValidNickName ? null : (
+            <div
+              style={{
+                color: 'red',
+                fontSize: '0.8rem',
+              }}
+            >
+              {'Nickname is already in use'}
+            </div>
+          )}
         </Box>
         <Box>
           <TextInput label="Email" value={email} onChange={setEmail} />
           <Button variant="text" onClick={EmailConfirm}>
-            이메일 양식 확인
+            {'Check email'}
           </Button>
+          {isValidEmail ? null : (
+            <div
+              style={{
+                color: 'red',
+                fontSize: '0.8rem',
+              }}
+            >
+              {'Invalid email'}
+            </div>
+          )}
         </Box>
         <Box>
           <TextInput label="password" value={pw} onChange={setPw} type="password" />
           <br />
           <TextInput label="password confirmation" value={pwConfirm} onChange={setPwConfirm} type="password" />
           <Button variant="text" onClick={PwConfirm}>
-            비밀번호 확인
+            {'Confirm Password'}
           </Button>
+          {isValidPw ? null : (
+            <div
+              style={{
+                color: 'red',
+                fontSize: '0.8rem',
+              }}
+            >
+              {'Invalid password'}
+            </div>
+          )}
         </Box>
         <Button variant="contained" endIcon={<SendIcon />} type="submit">
-          Send
+          {'Send'}
         </Button>
       </Box>
     </Box>

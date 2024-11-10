@@ -1,4 +1,3 @@
-import { SignRequestType } from '@/types/Auth';
 import axios from 'axios';
 import { headers } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
@@ -14,7 +13,11 @@ export async function GET(request: NextRequest) {
   try {
     const { authorization } = await getCookieData();
 
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_HOST}/boards`, {
+    const searchParams = request.nextUrl.searchParams;
+    const challengeId = searchParams.get('challengeId');
+
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_HOST}/gathering`, {
+      params: { challengeId },
       headers: {
         Authorization: authorization,
       },
@@ -26,17 +29,4 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.error();
   }
-}
-
-export async function POST(request: NextRequest) {
-  const body: SignRequestType = await request.json();
-
-  const res = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_HOST}/boards`, body);
-
-  if (!res) {
-    console.error('Failed to sign in');
-    return NextResponse.error();
-  }
-
-  return NextResponse.json(res.data);
 }

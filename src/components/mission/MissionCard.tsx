@@ -52,16 +52,21 @@ const MissionOpenCard = ({
   const [open, setOpen] = useState(false);
   const { profile } = useProfile();
   return (
-    <div className="mission-open-card">
+    <div
+      className="mission-open-card"
+      style={{
+        position: 'absolute',
+      }}
+    >
       <Box sx={{ minWidth: 275 }}>
         <>
           <CardContent style={{ border: 'none' }}>
             <Typography gutterBottom sx={{ color: 'text.secondary', fontSize: 14 }}>
-              {`${name} Nice to meet you! I'll tell you the mission of the [${romanizeAddress(district ?? '')}(${district}) / ${bigCategory}] Challenge!`}
+              {`${name} Nice to meet you! I'll tell you the mission of the [${romanizeAddress(district ?? '')}(${district}) / ${koreanToEnglishCategory(bigCategory ?? '')}] Challenge!`}
             </Typography>
             <Typography
               variant="h6"
-              component="p"
+              component="div"
               style={{
                 whiteSpace: 'pre-line',
                 wordBreak: 'break-word',
@@ -91,9 +96,17 @@ const MissionOpenCard = ({
             }}
           >
             {open ? (
-              <Typography>{mission.mission}</Typography>
+              <Typography>{`${mission.mission}`}</Typography>
             ) : (
-              <Button size="small" onClick={() => setOpen(true)}>{`Click to Open!`}</Button>
+              <Button
+                size="small"
+                style={{
+                  backgroundColor: '#FCC4DD',
+                  color: 'black',
+                  padding: '10px 20px',
+                }}
+                onClick={() => setOpen(true)}
+              >{`Click to Open!`}</Button>
             )}
           </CardActions>
         </>
@@ -155,7 +168,7 @@ const MissionCard = () => {
                 style={{ maxWidth: 'unset' }}
               />
               <MissionOpenCard
-                name={profile?.email ?? ''}
+                name={profile?.nickName ?? ''}
                 district={district}
                 bigCategory={bigCategory}
                 mission={mission}
@@ -164,8 +177,12 @@ const MissionCard = () => {
           </div>
         </div>
       )}
-      <Button variant="contained" color="primary" style={{ margin: '0 auto', width: 'fit-content' }}>
-        <Link href={'/'}>{`Let's go Challenge`}</Link>
+      <Button
+        variant="contained"
+        color="primary"
+        style={{ margin: '0 auto', width: 'fit-content', backgroundColor: '#FCC4DD' }}
+      >
+        <Link href={'/challen-log'}>{`Let's go Challenge`}</Link>
       </Button>
     </div>
   );
