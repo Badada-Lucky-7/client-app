@@ -1,5 +1,6 @@
 'use client';
 
+import useProfile from '@/hooks/useProfile';
 import EditIcon from '@mui/icons-material/Edit';
 import SendIcon from '@mui/icons-material/Send';
 import Box from '@mui/material/Box';
@@ -25,13 +26,17 @@ const style = {
   p: 4,
 };
 
-export default function SetModal({ district, bigCategory }: { district: string; bigCategory: string }) {
+export default function SetModal({ district, bigCategory }: { district?: string; bigCategory?: string }) {
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState<File | null>(null);
+
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const { profile } = useProfile();
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -50,18 +55,27 @@ export default function SetModal({ district, bigCategory }: { district: string; 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!title || !content || !image) {
+    if (!title || !content || !image || !profile) {
       return;
     }
 
     try {
-      const response = await axios.post('/api/boards', {
-        title,
-        text: content,
-        multipartFile: image,
-        district,
-        bigCategory,
+      const formData = new FormData();
+
+      formData.append('multipartFile', image);
+      formData.append('title', title);
+      formData.append('text', content);
+      formData.append('district', district ?? '');
+      formData.append('bigCategory', bigCategory ?? '');
+
+      const response = await axios.post('/api/boards', formData, {
+        headers: {
+          Authorization: `Bearer ${profile.accessToken}`,
+          'Content-Type': 'multipart/form-data',
+        },
       });
+
+      console.log(response);
     } catch (error) {
       console.error(error);
     }
@@ -116,7 +130,7 @@ export default function SetModal({ district, bigCategory }: { district: string; 
                   value={content}
                   onChange={onChangeContent}
                 />
-                <Button variant="contained" endIcon={<SendIcon />} type="submit">
+                <Button variant="contained" endIcon={<SendIcon />} onClick={handleSubmit}>
                   Send
                 </Button>
               </div>

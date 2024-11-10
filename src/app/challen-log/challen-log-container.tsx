@@ -2,6 +2,7 @@
 
 import ChallenLogCard from '@/components/challen-log/chllenLogCard';
 import ReviewCard from '@/components/review-card/ReviewCard';
+import SetModal from '@/components/write/setModal';
 import useProfile from '@/hooks/useProfile';
 import { BoardCommentType, BoardType } from '@/types/Board';
 import axios from 'axios';
@@ -35,11 +36,6 @@ const ChallengeLogContainer = () => {
       })
       .then((res) => {
         setBoard(res.data);
-
-        if (res.data.length === 0) {
-          router.replace('/login');
-          return;
-        }
       });
   }, [profile, router]);
 
@@ -50,7 +46,7 @@ const ChallengeLogContainer = () => {
           <span className="title" style={{ fontSize: 17, fontWeight: 550 }}>
             {'Succeeded people in the challenge'}
           </span>
-          {/* {district && bigCategory && <SetModal district={district} bigCategory={bigCategory} />} */}
+          {<SetModal district={'동대문구'} bigCategory={'문화'} />}
         </div>
         <ReviewCard board={board} />
       </div>
