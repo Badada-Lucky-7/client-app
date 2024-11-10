@@ -4,6 +4,7 @@ import useProfile from '@/hooks/useProfile';
 import { GatheringType } from '@/types/Gathering';
 import { Button, Card } from '@mui/material';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import JoinCard from '../join-card/JoinCard';
 
@@ -17,6 +18,8 @@ const ChallenLogCard = () => {
   const [gatheringData, setGatheringData] = useState<GatheringResponse[] | null>(null);
   const [open, setOpen] = useState(false);
   const [text, setText] = useState('');
+
+  const router = useRouter();
 
   useEffect(() => {
     if (!profile) {
@@ -47,13 +50,22 @@ const ChallenLogCard = () => {
       <Button onClick={() => setOpen(true)}>{`Let's gathering`}</Button>
       {open && (
         <Card>
+          <Button
+            style={{
+              width: '100%',
+              textAlign: 'right',
+              justifyContent: 'flex-end',
+            }}
+            onClick={() => setOpen(false)}
+          >{`Close`}</Button>
           <textarea value={text} onChange={(e) => setText(e.target.value)} style={{ width: '100%', height: '100px' }} />
           <Button
+            style={{ width: '100%' }}
             onClick={async () => {
               if (!profile) {
                 return;
               }
-              await axios.post(
+              const res = await axios.post(
                 `/api/gathering`,
                 {
                   maxCount: 10,
@@ -65,6 +77,12 @@ const ChallenLogCard = () => {
                   },
                 }
               );
+
+              if (res.data.status === 200) {
+                router.refresh();
+              } else if (res.data.code === 'ALREADY_WRITE_TODAY') {
+                alert('You already wrote today');
+              }
               setOpen(false);
             }}
           >

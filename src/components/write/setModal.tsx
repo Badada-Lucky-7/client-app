@@ -11,6 +11,7 @@ import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import './setModal.css';
 
@@ -38,6 +39,7 @@ export default function SetModal({ district, bigCategory }: { district?: string;
   const handleClose = () => setOpen(false);
 
   const { profile } = useProfile();
+  const router = useRouter();
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -75,6 +77,15 @@ export default function SetModal({ district, bigCategory }: { district?: string;
           'Content-Type': 'multipart/form-data',
         },
       });
+
+      if (response.status === 200) {
+        alert('Successfully posted.');
+        router.refresh();
+      }
+
+      if (response.data.code === 'CAN_NOT_WRITE') {
+        alert('Posts may only be unique once a day.');
+      }
 
       setOpen(false);
     } catch (error) {
