@@ -58,7 +58,6 @@ const Form = () => {
               } else {
                 route.replace('/');
               }
-
             }
           });
         }}
